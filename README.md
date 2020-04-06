@@ -1,2 +1,2 @@
-# core
-Core functionality that will span across multiple projects
+# Core
+Core functionality that will span across multiple projects.
