@@ -1,7 +1,7 @@
 # Core
 Core functionality that will span across multiple projects.
 <BR><BR>
-Goals:<BR>
+<b>Goals</b>:<BR>
 -Object Pooling<BR>
 -Scenes Manager<BR>
 -Audio Manager<BR>
