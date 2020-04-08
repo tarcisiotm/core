@@ -7,20 +7,20 @@ namespace TG.Core {
     public class ScenesManagerProxy : MonoBehaviour {
         ScenesManager scenesManager;
 
-        void Start() {
+        protected virtual void Start() {
             scenesManager = FindObjectOfType<ScenesManager>();
         }
 
-        public void LoadMainMenu() {
-            //scenesManager.LoadMainMenu();
+        public virtual void LoadMainMenu() {
+            scenesManager.LoadScene(0);
         }
 
-        public void LoadNextLevel() {
-            //scenesManager.LoadNextLevel();
+        public virtual void LoadNextLevel() {
+            scenesManager.LoadNextSceneWithFade();
         }
 
-        public void ReloadScene() {
-            //scenesManager.ReloadScene();
+        public virtual void ReloadScene() {
+            scenesManager.ReloadScene();
         }
 
 
