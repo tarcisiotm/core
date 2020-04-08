@@ -4,7 +4,7 @@ Core functionality that will span across multiple projects.
 
 # Installing Core
 
-To install this package, follow the instructions in the [Package Manager documentation](https://docs.unity3d.com/Packages/com.unity.package-manager-ui@latest/index.html).
+To install this package, follow the instructions in the [Git URLs page](https://docs.unity3d.com/Manual/upm-git.html) and [Package Manager documentation](https://docs.unity3d.com/Packages/com.unity.package-manager-ui@latest/index.html).
 
 # Using Core
 
