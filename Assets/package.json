@@ -1,0 +1,11 @@
+{
+	"name": "com.tarcisiogames.core",
+	"displayName":"Core",
+	"version": "0.5.0",
+    "unity": "2019.3",
+    "keywords": ["Object Pooling", "Scene Management", "Audio Manager", "IO", "Singleton"],
+    "category": "2D",
+	"description": "Core systems: Object Pooling, Scene Management, Simple Audio Management, IO, Singleton",
+    "dependencies": {
+    }
+}
