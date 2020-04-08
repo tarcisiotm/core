@@ -30,5 +30,6 @@ namespace TG.Core.Audio {
             targetTransform = null;
             gameObject.SetActive(false);
         }
+
     }
 }
