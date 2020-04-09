@@ -25,6 +25,7 @@ namespace TG.Core
         public delegate void SceneProgressUpdate(float loadingProgress);
 
         public static SceneLoadEvent OnTransitionFadedIn;
+        public static SceneLoadEvent OnTransitionIsGoingToFadeOut;
         public static SceneLoadEvent OnSceneIsGoingToLoad;
         public static SceneLoadEvent OnSceneLoaded;
 
@@ -111,7 +112,8 @@ namespace TG.Core
             OnSceneProgressUpdated?.Invoke(1f);
 
             if (fadeConditionsMet) {
-                yield return new WaitForSeconds(.3f);
+                OnTransitionIsGoingToFadeOut?.Invoke();
+                yield return new WaitForSeconds(sceneTransition.BeforeFadeStallDuration);
                 sceneTransition.FadeOut();
                 yield return new WaitForSeconds(sceneTransition.TransitionDuration);
             }
