@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace TG.Core {
+    /// <summary>
+    /// Handles Pooling of Objects
+    /// </summary>
     public class PoolingManager : Singleton<PoolingManager> {
         [Header("Settings")]
         [SerializeField] bool onStart = true;

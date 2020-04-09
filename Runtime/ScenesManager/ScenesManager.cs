@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 namespace TG.Core
 {
+    /// <summary>
+    /// Manager for loading / unloading scenes
+    /// </summary>
     public class ScenesManager : Singleton<ScenesManager>
     {
         [Header("Settings")]

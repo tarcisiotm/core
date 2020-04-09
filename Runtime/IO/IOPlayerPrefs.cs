@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
 namespace TG.IO{
+    /// <summary>
+    /// Handler class for Player Prefs
+    /// </summary>
     public static class IOPlayerPrefs {
 
         #region PlayerPrefs

@@ -4,6 +4,9 @@ using TG.Core;
 using UnityEngine;
 
 namespace TG.Core {
+    /// <summary>
+    /// Scenes Manager Proxy for operations that require a reference
+    /// </summary>
     public class ScenesManagerProxy : MonoBehaviour {
         ScenesManager scenesManager;
 

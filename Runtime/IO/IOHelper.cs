@@ -5,6 +5,9 @@ using System;
 
 namespace TG.IO
 {
+    /// <summary>
+    /// Helper class for IO operations
+    /// </summary>
     public static class IOHelper
     {
         /// <summary>

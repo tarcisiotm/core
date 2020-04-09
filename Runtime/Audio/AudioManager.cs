@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace TG.Core.Audio{
+    /// <summary>
+    /// Manager for creating OneShots, and globally handling audio
+    /// </summary>
     public class AudioManager : Singleton<AudioManager>{
         PoolingManager poolingManager;
 

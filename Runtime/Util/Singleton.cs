@@ -2,6 +2,9 @@
 
 namespace TG.Core
 {
+    /// <summary>
+    /// Singleton implementation
+    /// </summary>
     public abstract class Singleton<T> : MonoBehaviour where T : Component
     {
         protected static T instance = null;

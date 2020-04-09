@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
 namespace TG.Core.Audio {
+    /// <summary>
+    /// Disables the gammeobject after it finishes playing
+    /// </summary>
     public class PlayAudioAndDisable : AudioBase {
 
         [SerializeField] AudioSource audioSource;
