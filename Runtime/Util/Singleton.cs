@@ -4,9 +4,6 @@ namespace TG.Core
 {
     public abstract class Singleton<T> : MonoBehaviour where T : Component
     {
-        [Tooltip("If true, won't be destroyed between scenes.")]
-        public bool doNotDestroyOnLoad = false;
-
         protected static T instance = null;
 
         public static T I => instance;
@@ -20,11 +17,6 @@ namespace TG.Core
             }
 
             instance = this as T;
-
-            if (doNotDestroyOnLoad)
-            {
-                DontDestroyOnLoad(gameObject);
-            }
         }
 
         protected virtual void OnDisable()
