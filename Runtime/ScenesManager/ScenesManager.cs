@@ -98,7 +98,7 @@ namespace TG.Core
             }
 
             while (!asyncScene.isDone){
-                LoadingProgress = Mathf.Clamp01(asyncScene.progress / 0.9f) * 100;
+                LoadingProgress = asyncScene.progress;
 
                 OnSceneProgressUpdated?.Invoke(LoadingProgress);
 
