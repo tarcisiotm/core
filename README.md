@@ -2,7 +2,7 @@
 
 Core functionality that will span across multiple projects.
 
-The first pass will make this stable and usable, but not optimized yet. After Ludum Dare 46, I'll try to make time to optimize stuff around and try to get closes to a release candidate.
+The first pass will make this stable and usable, but not optimized yet. After Ludum Dare 46, I'll try to make time to optimize stuff around and try to get closer to a release candidate.
 
 # Installing Core
 
