@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ namespace TG.Core.Audio{
     /// Manager for creating OneShots, and globally handling audio
     /// </summary>
     public class AudioManager : Singleton<AudioManager>{
+
+        [SerializeField] bool fadeBGMOnSceneLoad = true;
 
         [SerializeField] GameObject audioPrefab;
 
@@ -18,6 +21,15 @@ namespace TG.Core.Audio{
 
         protected bool isReady = false;
 
+        protected override void OnEnable() {
+            base.OnEnable();
+            ScenesManager.OnSceneIsGoingToLoad += OnSceneIsGoingToLoad;
+            OnEnableChild();
+        }
+
+        protected virtual void OnSceneIsGoingToLoad(int activeSceneBuildIndex, int newSceneBuildIndex) {
+        }
+
         protected virtual IEnumerator Start()
         {
             while(PoolingManager.I  == null){
@@ -26,6 +38,16 @@ namespace TG.Core.Audio{
             poolingManager = PoolingManager.I;
             isReady = true;
         }
+
+        protected override void OnDisable() {
+            base.OnDisable();
+            ScenesManager.OnSceneIsGoingToLoad -= OnSceneIsGoingToLoad;
+            OnDisableChild();
+        }
+
+        protected virtual void OnEnableChild() { }
+
+        protected virtual void OnDisableChild() { }
 
         /// <summary>
         /// Creates a one shot sound that will follow target transform
@@ -76,6 +98,7 @@ namespace TG.Core.Audio{
         public virtual void RemoveFromAudioList(AudioBase p_audioObj){
             audioList.Remove(p_audioObj);
         }
+
 
     }
 }
