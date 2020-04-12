@@ -7,11 +7,16 @@ namespace TG.Core.Audio{
     /// <summary>
     /// Manager for creating OneShots, and globally handling audio
     /// </summary>
-    public class AudioManager : Singleton<AudioManager>{
+    public abstract class AudioManagerBase : Singleton<AudioManagerBase>{
 
-        [SerializeField] bool fadeBGMOnSceneLoad = true;
+        [Header("Base Settings")]
+        [SerializeField] protected bool fadeBGMOnSceneLoad = true;
 
-        [SerializeField] GameObject audioPrefab;
+        [Header("References")]
+        [Tooltip("Optional BGM Audio Source")]
+        [SerializeField] protected AudioSource bgmAudioSource;
+        [Tooltip("Audio Prefab for instantiating sounds at runtime")]
+        [SerializeField] protected GameObject audioPrefab;
 
         protected PoolingManager poolingManager;
 

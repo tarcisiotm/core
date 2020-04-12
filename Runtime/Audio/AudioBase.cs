@@ -9,11 +9,11 @@ namespace TG.Core.Audio {
     public class AudioBase : MonoBehaviour {
 
         protected virtual void OnEnable() {
-            AudioManager.I.AddToAudioList(this);
+            AudioManagerBase.I.AddToAudioList(this);
         }
 
         protected virtual void OnDisable() {
-            AudioManager.I.RemoveFromAudioList(this);
+            AudioManagerBase.I.RemoveFromAudioList(this);
         }
 
     }
