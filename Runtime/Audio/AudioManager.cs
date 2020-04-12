@@ -7,17 +7,18 @@ namespace TG.Core.Audio{
     /// Manager for creating OneShots, and globally handling audio
     /// </summary>
     public class AudioManager : Singleton<AudioManager>{
-        PoolingManager poolingManager;
 
         [SerializeField] GameObject audioPrefab;
 
-        PlayAudioAndDisable plauAudioAndDisable;
+        protected PoolingManager poolingManager;
 
-        List<AudioBase> audioList = new List<AudioBase>();
+        protected PlayAudioAndDisable plauAudioAndDisable;
 
-        bool isReady = false;
+        protected List<AudioBase> audioList = new List<AudioBase>();
 
-        IEnumerator Start()
+        protected bool isReady = false;
+
+        protected virtual IEnumerator Start()
         {
             while(PoolingManager.I  == null){
                 yield return null;
@@ -32,7 +33,7 @@ namespace TG.Core.Audio{
         /// <param name="clip">The audio clip</param>
         /// <param name="targetTransform">The transform</param>
         /// <param name="vol">The volume</param>
-        public void CreateOneShotFollowTarget(AudioClip clip, Transform targetTransform, float vol) {
+        public virtual void CreateOneShotFollowTarget(AudioClip clip, Transform targetTransform, float vol) {
             plauAudioAndDisable = poolingManager.GetPooledObject(audioPrefab).GetComponent<PlayAudioAndDisable>();
 
             if (plauAudioAndDisable == null) {
@@ -52,7 +53,7 @@ namespace TG.Core.Audio{
         /// <param name="clip"></param>
         /// <param name="pos"></param>
         /// <param name="vol"></param>
-        public void CreateOneShot(AudioClip clip, Vector3 pos, float vol = 1f){
+        public virtual void CreateOneShot(AudioClip clip, Vector3 pos, float vol = 1f){
             plauAudioAndDisable = poolingManager.GetPooledObject(audioPrefab).GetComponent<PlayAudioAndDisable>();
 
             if(plauAudioAndDisable == null){
@@ -68,11 +69,11 @@ namespace TG.Core.Audio{
         }
 
         //TODO future sprint to add pause all, etc
-        public void AddToAudioList(AudioBase p_audioObj) {
+        public virtual void AddToAudioList(AudioBase p_audioObj) {
             audioList.Remove(p_audioObj);
         }
 
-        public void RemoveFromAudioList(AudioBase p_audioObj){
+        public virtual void RemoveFromAudioList(AudioBase p_audioObj){
             audioList.Remove(p_audioObj);
         }
 
