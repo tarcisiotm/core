@@ -4,22 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace TG.Core
-{
+namespace TG.Core {
     /// <summary>
     /// Manager for loading / unloading scenes
     /// </summary>
-    public class ScenesManager : Singleton<ScenesManager>
-    {
+    public class ScenesManager : Singleton<ScenesManager> {
         [Header("Settings")]
-        [SerializeField] bool usesFade = false;
         [Tooltip("For loading times smaller than this value, will stall for the remainder.")]
         [SerializeField] float minLoadTime = 0f;
 
         [Header("Optional Settings")]
-        [Tooltip("Use this to stall the screen after the load is done but before fading out the transition. Will only be used with transitions.")]
-        [SerializeField] float minTimeAfterLoaded = 0f;
-        [SerializeField] int mainMenuSceneBuildIndex;
+        [SerializeField] int mainMenuSceneBuildIndex = 0;
 
         public bool IsLoadingScene { get; private set; }
         public float LoadingProgress { get; private set; }
@@ -55,9 +50,9 @@ namespace TG.Core
         public void LoadScene(
             string sceneName,
             bool usesFade = false,
-            UnloadCondition unloadCondition = UnloadCondition.AfterNewSceneHasLoaded){
+            UnloadCondition unloadCondition = UnloadCondition.AfterNewSceneHasLoaded) {
 
-            if (IsLoadingScene){ return; }
+            if (IsLoadingScene) { return; }
 
             if (!IsSceneInBuild(sceneName, out int index)) {
                 Debug.LogError($"Could not find scene {sceneName}. Make sure it is included inside Build Settings.");
@@ -99,17 +94,17 @@ namespace TG.Core
                 OnTransitionFadedIn?.Invoke();
             }
 
-            if(fadeConditionsMet && unloadCondition == UnloadCondition.AfterTransitionFadedIn) {
+            if (fadeConditionsMet && unloadCondition == UnloadCondition.AfterTransitionFadedIn) {
                 yield return SceneManager.UnloadSceneAsync(activeScene);
             }
 
-            while (!asyncScene.isDone){
+            while (!asyncScene.isDone) {
                 LoadingProgress = asyncScene.progress;
 
                 OnSceneProgressUpdated?.Invoke(LoadingProgress);
 
                 if (asyncScene.progress >= 0.9f && Time.timeSinceLevelLoad - initialTime >= minLoadTime
-                    ){ asyncScene.allowSceneActivation = true; }
+                    ) { asyncScene.allowSceneActivation = true; }
 
                 yield return null;
             }

@@ -15,7 +15,7 @@ namespace TG.Core {
 
         [SerializeField]
         //TODO Rename to poolingSets
-        List<PoolingSet> pooledSets;
+        List<PoolingSet> pooledSets = default;
 
         GameObject go;
 

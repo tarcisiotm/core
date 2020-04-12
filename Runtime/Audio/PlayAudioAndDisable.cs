@@ -6,8 +6,8 @@ namespace TG.Core.Audio {
     /// </summary>
     public class PlayAudioAndDisable : AudioBase {
 
-        [SerializeField] AudioSource audioSource;
-        Transform targetTransform;
+        [SerializeField] AudioSource audioSource = default;
+        Transform targetTransform = default;
 
         float duration;
 
