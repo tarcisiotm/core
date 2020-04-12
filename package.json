@@ -1,7 +1,7 @@
 {
 	"name": "com.tarcisiogames.core",
 	"displayName":"TG Core",
-	"version": "0.5.4",
+	"version": "0.5.5",
     "unity": "2019.3",
     "keywords": ["Object Pooling", "Scene Management", "Audio Manager", "IO", "Singleton"],
     "category": "2D",

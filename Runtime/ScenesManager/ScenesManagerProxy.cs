@@ -15,7 +15,7 @@ namespace TG.Core {
         }
 
         public virtual void LoadMainMenu() {
-            scenesManager.LoadScene(0);
+            scenesManager.LoadMainMenu();
         }
 
         public virtual void LoadNextLevel() {
@@ -25,7 +25,6 @@ namespace TG.Core {
         public virtual void ReloadScene() {
             scenesManager.ReloadScene();
         }
-
 
     }
 }
