@@ -94,9 +94,9 @@ namespace TG.Core {
                 OnTransitionFadedIn?.Invoke();
             }
 
-            if (fadeConditionsMet && unloadCondition == UnloadCondition.AfterTransitionFadedIn) {
-                yield return SceneManager.UnloadSceneAsync(activeScene);
-            }
+            //if (fadeConditionsMet && unloadCondition == UnloadCondition.AfterTransitionFadedIn) {
+                //yield return SceneManager.UnloadSceneAsync(activeScene);
+            //}
 
             while (!asyncScene.isDone) {
                 LoadingProgress = asyncScene.progress;
