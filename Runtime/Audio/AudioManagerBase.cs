@@ -26,6 +26,9 @@ namespace TG.Core.Audio{
 
         protected bool isReady = false;
 
+
+        #region Unity's Callbacks
+
         protected override void OnEnable() {
             base.OnEnable();
             ScenesManager.OnSceneIsGoingToLoad += OnSceneIsGoingToLoad;
@@ -53,7 +56,10 @@ namespace TG.Core.Audio{
         protected virtual void OnEnableChild() { }
 
         protected virtual void OnDisableChild() { }
+        #endregion Unity's Callbacks
 
+
+        #region Object Creation
         /// <summary>
         /// Creates a one shot sound that will follow target transform
         /// </summary>
@@ -94,7 +100,10 @@ namespace TG.Core.Audio{
             plauAudioAndDisable.gameObject.SetActive(true);
             plauAudioAndDisable.PlayAndDisable(clip, vol);
         }
+        #endregion Object Creation
 
+
+        #region Global Config
         //TODO future sprint to add pause all, etc
         public virtual void AddToAudioList(AudioBase p_audioObj) {
             audioList.Remove(p_audioObj);
@@ -103,7 +112,18 @@ namespace TG.Core.Audio{
         public virtual void RemoveFromAudioList(AudioBase p_audioObj){
             audioList.Remove(p_audioObj);
         }
+        #endregion Global Config
 
 
+        #region Playback
+
+        public virtual void PlayBGM(AudioClip audioClip, float volume = 1) {
+            if(bgmAudioSource == null) { return; }
+            bgmAudioSource.clip = audioClip;
+            bgmAudioSource.volume = volume;
+            bgmAudioSource.Play();
+        }
+
+        #endregion Playback
     }
 }
