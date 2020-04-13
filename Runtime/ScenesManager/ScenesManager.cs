@@ -90,7 +90,7 @@ namespace TG.Core {
 
             if (fadeConditionsMet) {
                 sceneTransition.FadeIn();
-                yield return WaitForSecondsUnscaled(sceneTransition.TransitionDuration); //new WaitForSeconds(sceneTransition.TransitionDuration);
+                yield return WaitForSecondsUnscaled(sceneTransition.TransitionDuration);
                 OnTransitionFadedIn?.Invoke();
             }
 
@@ -114,10 +114,8 @@ namespace TG.Core {
             if (fadeConditionsMet) {
                 OnTransitionIsGoingToFadeOut?.Invoke();
                 yield return WaitForSecondsUnscaled(sceneTransition.BeforeFadeStallDuration);
-                //yield return new WaitForSeconds(sceneTransition.BeforeFadeStallDuration);
                 sceneTransition.FadeOut();
                 yield return WaitForSecondsUnscaled(sceneTransition.TransitionDuration);
-                //yield return new WaitForSeconds(sceneTransition.TransitionDuration);
             }
 
             IsLoadingScene = false;

@@ -14,6 +14,8 @@ namespace TG.Core {
                 return;
             }
 
+            instance = this;
+
             DontDestroyOnLoad(this.gameObject);
         }
     }
