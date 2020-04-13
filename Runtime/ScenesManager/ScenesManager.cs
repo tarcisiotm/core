@@ -90,7 +90,7 @@ namespace TG.Core {
 
             if (fadeConditionsMet) {
                 sceneTransition.FadeIn();
-                yield return new WaitForSeconds(sceneTransition.TransitionDuration);
+                yield return WaitForSecondsUnscaled(sceneTransition.TransitionDuration); //new WaitForSeconds(sceneTransition.TransitionDuration);
                 OnTransitionFadedIn?.Invoke();
             }
 
@@ -113,9 +113,11 @@ namespace TG.Core {
 
             if (fadeConditionsMet) {
                 OnTransitionIsGoingToFadeOut?.Invoke();
-                yield return new WaitForSeconds(sceneTransition.BeforeFadeStallDuration);
+                yield return WaitForSecondsUnscaled(sceneTransition.BeforeFadeStallDuration);
+                //yield return new WaitForSeconds(sceneTransition.BeforeFadeStallDuration);
                 sceneTransition.FadeOut();
-                yield return new WaitForSeconds(sceneTransition.TransitionDuration);
+                yield return WaitForSecondsUnscaled(sceneTransition.TransitionDuration);
+                //yield return new WaitForSeconds(sceneTransition.TransitionDuration);
             }
 
             IsLoadingScene = false;
@@ -123,6 +125,13 @@ namespace TG.Core {
 
             if (unloadCondition == UnloadCondition.AfterNewSceneHasLoaded) {
                 SceneManager.UnloadSceneAsync(activeScene);
+            }
+        }
+
+        IEnumerator WaitForSecondsUnscaled(float seconds) {
+            float startTime = Time.realtimeSinceStartup;
+            while (Time.realtimeSinceStartup - startTime < seconds) {
+                yield return null;
             }
         }
 
