@@ -103,7 +103,7 @@ namespace TG.Core {
 
                 OnSceneProgressUpdated?.Invoke(LoadingProgress);
 
-                if (asyncScene.progress >= 0.9f && Time.timeSinceLevelLoad - initialTime >= minLoadTime
+                if (asyncScene.progress >= 0.9f && Time.realtimeSinceStartup - initialTime >= minLoadTime
                     ) { asyncScene.allowSceneActivation = true; }
 
                 yield return null;
