@@ -15,7 +15,7 @@ Stub
 # Technical details
 ## Requirements
 
-This version of Coreis compatible with the following versions of the Unity Editor:
+This version of Core is compatible with the following versions of the Unity Editor:
 
 * 2019.3 and later (recommended)
 
