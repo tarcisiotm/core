@@ -6,7 +6,7 @@ namespace TG.Core {
     /// <summary>
     /// Handles Pooling of Objects
     /// </summary>
-    public class PoolingManager : MonoBehaviour {
+    public class PoolingController : MonoBehaviour {
         [Header("Settings")]
         [SerializeField] bool onStart = true;
 

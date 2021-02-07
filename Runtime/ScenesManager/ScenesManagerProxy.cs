@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TG.Core;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TG.Core {
     /// <summary>

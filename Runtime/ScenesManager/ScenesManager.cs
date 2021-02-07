@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -62,7 +60,7 @@ namespace TG.Core {
             StartCoroutine(Internal_LoadScene(sceneName, usesFade, unloadCondition));
         }
 
-        IEnumerator Internal_LoadScene(
+        private IEnumerator Internal_LoadScene(
                 string sceneName,
                 bool usesFade = true,
                 UnloadCondition unloadCondition = UnloadCondition.AfterNewSceneHasLoaded
@@ -126,7 +124,7 @@ namespace TG.Core {
             }
         }
 
-        IEnumerator WaitForSecondsUnscaled(float seconds) {
+        private IEnumerator WaitForSecondsUnscaled(float seconds) {
             float startTime = Time.realtimeSinceStartup;
             while (Time.realtimeSinceStartup - startTime < seconds) {
                 yield return null;
