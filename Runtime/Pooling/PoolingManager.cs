@@ -6,16 +6,16 @@ namespace TG.Core {
     /// <summary>
     /// Handles Pooling of Objects
     /// </summary>
-    public class PoolingManager : Singleton<PoolingManager> {
+    public class PoolingManager : MonoBehaviour {
         [Header("Settings")]
         [SerializeField] bool onStart = true;
+
         [Tooltip("If true, will only create one object per frame")]
         [SerializeField] bool incrementalInitialization = true;
         [SerializeField] bool canIncreaseInSize = true;
 
         [SerializeField]
-        //TODO Rename to poolingSets
-        List<PoolingSet> pooledSets = default;
+        List<PoolingSet> poolingSets = default;
 
         GameObject go;
 
@@ -24,6 +24,7 @@ namespace TG.Core {
 
         int amount;
 
+        public bool HasInit => hasInit;
 
         #region Initialization
         void Start() {
@@ -35,8 +36,8 @@ namespace TG.Core {
         }
 
         IEnumerator DoInit() {
-            for (int i = 0; i < pooledSets.Count; i++) {
-                yield return DoInitSet(pooledSets[i]);
+            for (int i = 0; i < poolingSets.Count; i++) {
+                yield return DoInitSet(poolingSets[i]);
             }
             hasInit = true;
         }
@@ -54,8 +55,8 @@ namespace TG.Core {
                 if (incrementalInitialization) { yield return null; }
             }
 
-            if (!pooledSets.Contains(poolingSet)) {
-                pooledSets.Add(poolingSet);
+            if (!poolingSets.Contains(poolingSet)) {
+                poolingSets.Add(poolingSet);
             }
 
             hasFinishedCreatingSet = true;
@@ -85,8 +86,8 @@ namespace TG.Core {
         }
 
         public bool ContainsPrefab(GameObject p_gameObject) {
-            for (int i = 0; i < pooledSets.Count; i++) {
-                if (p_gameObject == pooledSets[i].Prefab) {
+            for (int i = 0; i < poolingSets.Count; i++) {
+                if (p_gameObject == poolingSets[i].Prefab) {
                     return true;
                 }
             }
@@ -94,18 +95,18 @@ namespace TG.Core {
         }
 
         PoolingSet GetSet(GameObject p_gameObject) {
-            for (int i = 0; i < pooledSets.Count; i++) {
-                if (p_gameObject == pooledSets[i].Prefab) {
-                    return pooledSets[i];
+            for (int i = 0; i < poolingSets.Count; i++) {
+                if (p_gameObject == poolingSets[i].Prefab) {
+                    return poolingSets[i];
                 }
             }
             return null;
         }
 
         PoolingSet GetSet(string p_name) {
-            for (int i = 0; i < pooledSets.Count; i++) {
-                if (p_name == pooledSets[i].Prefab.name) {
-                    return pooledSets[i];
+            for (int i = 0; i < poolingSets.Count; i++) {
+                if (p_name == poolingSets[i].Prefab.name) {
+                    return poolingSets[i];
                 }
             }
             return null;
@@ -173,7 +174,7 @@ namespace TG.Core {
             for (int i = poolingSet.Objects.Count; i >= 0; i--) {
                 Destroy(objs[i]);
             }
-            pooledSets.Remove(poolingSet);
+            poolingSets.Remove(poolingSet);
 
         }
         #endregion Destruction
