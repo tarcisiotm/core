@@ -18,6 +18,7 @@ This version of Core is compatible with the following versions of the Unity Edit
 * 2019.4 or later (recommended)
 
 ## Games that used Core / Game Jam Template
+Dimensions: https://github.com/tarcisiotm/GGJ2021-LostAndFound
 Way Back Home: https://github.com/tarcisiotm/GGJ2021-LostAndFound
 O Jardim: https://github.com/tarcisiotm/ldjam46
 

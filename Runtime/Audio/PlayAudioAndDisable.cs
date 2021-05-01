@@ -5,34 +5,33 @@ namespace TG.Core.Audio {
     /// Disables the gammeobject after it finishes playing
     /// </summary>
     public class PlayAudioAndDisable : AudioBase {
+        [SerializeField] private AudioSource _audioSource = default;
 
-        [SerializeField] AudioSource audioSource = default;
-        Transform targetTransform = default;
+        private Transform _targetTransform = default;
 
-        float duration;
+        private float _duration;
 
         protected virtual void Update() {
-            duration -= Time.deltaTime;
-            if (duration < 0) { HandleDisableObject(); }
+            _duration -= Time.deltaTime;
+            if (_duration < 0) { HandleDisableObject(); }
 
-            if(targetTransform != null) {
-                transform.position = targetTransform.position;
+            if(_targetTransform != null) {
+                transform.position = _targetTransform.position;
             }
         }
 
         public virtual void PlayAndDisable(AudioClip audioClip, float volume = 1f, Transform transformToFollow = null) {
-            audioSource.clip = audioClip;
-            audioSource.volume = volume;
-            audioSource.Play();
-            duration = audioClip.length + 1f;
+            _audioSource.clip = audioClip;
+            _audioSource.volume = volume;
+            _audioSource.Play();
+            _duration = audioClip.length + 1f;
 
-            targetTransform = transformToFollow;
+            _targetTransform = transformToFollow;
         }
 
         public virtual void HandleDisableObject() {
-            targetTransform = null;
+            _targetTransform = null;
             gameObject.SetActive(false);
         }
-
     }
 }

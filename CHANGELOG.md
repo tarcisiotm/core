@@ -3,6 +3,9 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [0.5.9] - 2021-04-30
+### Removed need to have a pooling controller on the AudioManagerBase. Added functionality to optionally add it if needed during runtime.
+
 ## [0.5.8] - 2021-02-07
 ### Renamed PoolingManager to Pooling Controller and made it non-singleton. AudioManager base updates. Code refactoring.
 

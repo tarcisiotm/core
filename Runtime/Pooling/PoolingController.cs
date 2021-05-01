@@ -8,105 +8,105 @@ namespace TG.Core {
     /// </summary>
     public class PoolingController : MonoBehaviour {
         [Header("Settings")]
-        [SerializeField] bool onStart = true;
+        [SerializeField] private bool _onStart = true;
 
         [Tooltip("If true, will only create one object per frame")]
-        [SerializeField] bool incrementalInitialization = true;
-        [SerializeField] bool canIncreaseInSize = true;
+        [SerializeField] private bool _incrementalInitialization = true;
+        [SerializeField] private bool _canIncreaseInSize = true;
 
         [SerializeField]
-        List<PoolingSet> poolingSets = default;
+        private List<PoolingSet> _poolingSets = default;
 
-        GameObject go;
+        private GameObject _go;
 
-        bool hasInit = false;
-        bool hasFinishedCreatingSet = false;
+        private bool _hasInit = false;
+        private bool _hasFinishedCreatingSet = false;
 
-        int amount;
+        private int _amount;
 
-        public bool HasInit => hasInit;
+        public bool HasInit => _hasInit;
 
         #region Initialization
-        void Start() {
-            if (onStart) { InitializePool(); }
+        private void Start() {
+            if (_onStart) { InitializePool(); }
         }
 
         public void InitializePool() {
             StartCoroutine(DoInit());
         }
 
-        IEnumerator DoInit() {
-            for (int i = 0; i < poolingSets.Count; i++) {
-                yield return DoInitSet(poolingSets[i]);
+        private IEnumerator DoInit() {
+            for (int i = 0; i < _poolingSets.Count; i++) {
+                yield return DoInitSet(_poolingSets[i]);
             }
-            hasInit = true;
+            _hasInit = true;
         }
 
-        IEnumerator DoInitSet(PoolingSet poolingSet) {
+        private IEnumerator DoInitSet(PoolingSet poolingSet) {
             if (!poolingSet.IsValid()) { yield break; }
 
-            amount = poolingSet.AmountToPool;
-            poolingSet.Objects = new List<GameObject>(amount);
+            _amount = poolingSet.AmountToPool;
+            poolingSet.Objects = new List<GameObject>(_amount);
 
-            hasFinishedCreatingSet = false;
+            _hasFinishedCreatingSet = false;
 
-            for (int j = 0; j < amount; j++) {
+            for (int j = 0; j < _amount; j++) {
                 AddObjectToPoolingSet(poolingSet, j.ToString());
-                if (incrementalInitialization) { yield return null; }
+                if (_incrementalInitialization) { yield return null; }
             }
 
-            if (!poolingSets.Contains(poolingSet)) {
-                poolingSets.Add(poolingSet);
+            if (!_poolingSets.Contains(poolingSet)) {
+                _poolingSets.Add(poolingSet);
             }
 
-            hasFinishedCreatingSet = true;
+            _hasFinishedCreatingSet = true;
         }
         #endregion Initialization
 
 
         #region Object Handling
-        GameObject AddObjectToPoolingSet(PoolingSet p_poolingSet, string p_suffix) {
-            go = Instantiate(p_poolingSet.Prefab);
-            go.name += p_poolingSet.Prefab.name + " " + p_suffix;
+        private GameObject AddObjectToPoolingSet(PoolingSet p_poolingSet, string p_suffix) {
+            _go = Instantiate(p_poolingSet.Prefab);
+            _go.name += p_poolingSet.Prefab.name + " " + p_suffix;
 
             if (p_poolingSet.ParentTransform != null) {
-                go.transform.SetParent(p_poolingSet.ParentTransform);
+                _go.transform.SetParent(p_poolingSet.ParentTransform);
             }
 
-            go.SetActive(false);
-            p_poolingSet.Objects.Add(go);
-            return go;
+            _go.SetActive(false);
+            p_poolingSet.Objects.Add(_go);
+            return _go;
         }
 
         public void AddPoolingSet(PoolingSet poolingSet) {
             if (!poolingSet.IsValid()) { Debug.LogWarning("Set not valid!"); return; }
-            if (!hasInit || !hasFinishedCreatingSet) { Debug.LogWarning("Another operation is still taking place."); return; }
+            if (!_hasInit || !_hasFinishedCreatingSet) { Debug.LogWarning("Another operation is still taking place."); return; }
 
             StartCoroutine(DoInitSet(poolingSet));
         }
 
         public bool ContainsPrefab(GameObject p_gameObject) {
-            for (int i = 0; i < poolingSets.Count; i++) {
-                if (p_gameObject == poolingSets[i].Prefab) {
+            for (int i = 0; i < _poolingSets.Count; i++) {
+                if (p_gameObject == _poolingSets[i].Prefab) {
                     return true;
                 }
             }
             return false;
         }
 
-        PoolingSet GetSet(GameObject p_gameObject) {
-            for (int i = 0; i < poolingSets.Count; i++) {
-                if (p_gameObject == poolingSets[i].Prefab) {
-                    return poolingSets[i];
+        private PoolingSet GetSet(GameObject p_gameObject) {
+            for (int i = 0; i < _poolingSets.Count; i++) {
+                if (p_gameObject == _poolingSets[i].Prefab) {
+                    return _poolingSets[i];
                 }
             }
             return null;
         }
 
-        PoolingSet GetSet(string p_name) {
-            for (int i = 0; i < poolingSets.Count; i++) {
-                if (p_name == poolingSets[i].Prefab.name) {
-                    return poolingSets[i];
+        private PoolingSet GetSet(string p_name) {
+            for (int i = 0; i < _poolingSets.Count; i++) {
+                if (p_name == _poolingSets[i].Prefab.name) {
+                    return _poolingSets[i];
                 }
             }
             return null;
@@ -124,8 +124,8 @@ namespace TG.Core {
         }
 
         public T GetPooledObject<T>(GameObject p_prefab) {
-            go = GetPooledObject(p_prefab);
-            return go.GetComponent<T>();
+            _go = GetPooledObject(p_prefab);
+            return _go.GetComponent<T>();
         }
 
         public GameObject GetPooledObject(GameObject p_prefab) {
@@ -139,7 +139,7 @@ namespace TG.Core {
             return GetPooledObject(set);
         }
 
-        GameObject GetPooledObject(PoolingSet p_set) {
+        private GameObject GetPooledObject(PoolingSet p_set) {
             List<GameObject> p_collection = p_set.Objects;
             for (int i = 0; i < p_collection.Count; i++) {
                 if (!p_collection[i].activeInHierarchy) {
@@ -152,7 +152,7 @@ namespace TG.Core {
                 }
             }
 
-            if (!canIncreaseInSize) { return null; }
+            if (!_canIncreaseInSize) { return null; }
             Debug.LogWarning("No object would be available, but we made more of: " + p_set.Prefab.name);
             return AddObjectToPoolingSet(p_set, p_collection.Count.ToString());
         }
@@ -174,11 +174,9 @@ namespace TG.Core {
             for (int i = poolingSet.Objects.Count; i >= 0; i--) {
                 Destroy(objs[i]);
             }
-            poolingSets.Remove(poolingSet);
+            _poolingSets.Remove(poolingSet);
 
         }
         #endregion Destruction
-
-
     }
 }

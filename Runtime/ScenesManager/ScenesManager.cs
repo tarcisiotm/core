@@ -9,10 +9,10 @@ namespace TG.Core {
     public class ScenesManager : Singleton<ScenesManager> {
         [Header("Settings")]
         [Tooltip("For loading times smaller than this value, will stall for the remainder.")]
-        [SerializeField] float minLoadTime = 0f;
+        [SerializeField] float _minLoadTime = 0f;
 
         [Header("Optional Settings")]
-        [SerializeField] int mainMenuSceneBuildIndex = 0;
+        [SerializeField] int _mainMenuSceneBuildIndex = 0;
 
         public bool IsLoadingScene { get; private set; }
         public float LoadingProgress { get; private set; }
@@ -101,7 +101,7 @@ namespace TG.Core {
 
                 OnSceneProgressUpdated?.Invoke(LoadingProgress);
 
-                if (asyncScene.progress >= 0.9f && Time.realtimeSinceStartup - initialTime >= minLoadTime
+                if (asyncScene.progress >= 0.9f && Time.realtimeSinceStartup - initialTime >= _minLoadTime
                     ) { asyncScene.allowSceneActivation = true; }
 
                 yield return null;
@@ -132,7 +132,7 @@ namespace TG.Core {
         }
 
         public void LoadMainMenu(bool usesFade = true) {
-            LoadScene(GetSceneNameFromIndex(mainMenuSceneBuildIndex), usesFade, UnloadCondition.AfterTransitionFadedIn);
+            LoadScene(GetSceneNameFromIndex(_mainMenuSceneBuildIndex), usesFade, UnloadCondition.AfterTransitionFadedIn);
         }
 
         public void ReloadScene(bool usesFade = true) {
