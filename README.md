@@ -8,7 +8,7 @@ To install this package, follow the instructions in the [Git URLs page](https://
 
 # Using Core
 
-Stub
+`GameJamTemplate` is a good place to see Core in Action: https://github.com/tarcisiotm/gamejamtemplate
 
 # Technical details
 ## Requirements
@@ -35,5 +35,6 @@ The following table indicates the folder structure of the Core package:
 
 |Date|Reason|
 |----|------|
+|May 12, 2021|Updated "Using Core" section. Matches package version 0.6.0|
 |February 07, 2021|Updated Unity Version created. Matches package version 0.5.0|
 |April 08, 2020|Document created. Matches package version 0.5.0|

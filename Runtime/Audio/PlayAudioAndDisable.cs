@@ -6,6 +6,7 @@ namespace TG.Core.Audio {
     /// </summary>
     public class PlayAudioAndDisable : AudioBase {
         [SerializeField] private AudioSource _audioSource = default;
+        [SerializeField] private bool _destroyWhenDone = false;
 
         private Transform _targetTransform = default;
 
@@ -32,6 +33,13 @@ namespace TG.Core.Audio {
         public virtual void HandleDisableObject() {
             _targetTransform = null;
             gameObject.SetActive(false);
+
+            if (_destroyWhenDone) Destroy(gameObject);
+        }
+
+        public void SetDestroyWhenDone(bool value)
+        {
+            _destroyWhenDone = value;
         }
     }
 }

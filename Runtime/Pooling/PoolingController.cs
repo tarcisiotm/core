@@ -63,7 +63,6 @@ namespace TG.Core {
         }
         #endregion Initialization
 
-
         #region Object Handling
         private GameObject AddObjectToPoolingSet(PoolingSet p_poolingSet, string p_suffix) {
             _go = Instantiate(p_poolingSet.Prefab);
@@ -157,7 +156,6 @@ namespace TG.Core {
             return AddObjectToPoolingSet(p_set, p_collection.Count.ToString());
         }
         #endregion Object Handling
-
 
         #region Destruction
         public void ClearSet(GameObject go) {

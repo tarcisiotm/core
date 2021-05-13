@@ -3,6 +3,9 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [0.6.0] - 2021-05-12
+### Updates to AudioManagerBase and PlayAudioAndDisable. Improved use of Pooling Controller by AudioManagerBase.
+
 ## [0.5.9] - 2021-04-30
 ### Removed need to have a pooling controller on the AudioManagerBase. Added functionality to optionally add it if needed during runtime.
 
