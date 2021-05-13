@@ -3,6 +3,9 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [0.6.0.1] - 2021-05-12
+### Removed unused variable from AudioManagerBase.
+
 ## [0.6.0] - 2021-05-12
 ### Updates to AudioManagerBase and PlayAudioAndDisable. Improved use of Pooling Controller by AudioManagerBase.
 
