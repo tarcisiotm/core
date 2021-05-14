@@ -3,6 +3,9 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [0.6.2] - 2021-05-13
+### Fixed unload issue with ScenesManager.
+
 ## [0.6.1] - 2021-05-12
 ### Removed unused variable from AudioManagerBase.
 
@@ -16,25 +19,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Renamed PoolingManager to Pooling Controller and made it non-singleton. AudioManager base updates. Code refactoring.
 
 ## [0.5.7] - 2020-04-13
-### Stability: lots of bug fixes on core systems such as level loading
+### Stability: lots of bug fixes on core systems such as level loading.
 
 ## [0.5.6] - 2020-04-12
-### Audio Manager Updated for Inheritance
+### Audio Manager Updated for Inheritance.
 
 ## [0.5.5] - 2020-04-12
-### Updates to the ScenesManager: events with parameters, Load Main Menu Option
+### Updates to the ScenesManager: events with parameters, Load Main Menu Option.
 
 ## [0.5.4] - 2020-04-08
-### Documentation for all the classes
+### Documentation for all the classes.
 
 ## [0.5.3] - 2020-04-08
-### Event for before fading out loading screen
+### Event for before fading out loading screen.
 
 ## [0.5.2] - 2020-04-08
-### Optional stall time after fade in (from SceneTransition) during Scene Loading with fade
+### Optional stall time after fade in (from SceneTransition) during Scene Loading with fade.
 
 ## [0.5.1] - 2020-04-08
-### Namespace consistency update
+### Namespace consistency update.
 
 ## [0.5.0] - 2020-04-08
-### This is the first release of Core, as a Package
+### This is the first release of Core, as a Package.
