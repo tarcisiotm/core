@@ -1,11 +1,11 @@
 {
-	"name": "com.tarcisiogames.core",
-	"displayName":"TG Core",
-	"version": "0.6.1",
+    "name": "com.tarcisiogames.core",
+    "displayName": "TG Core",
+    "version": "0.6.2",
     "unity": "2019.4",
-    "keywords": ["Object Pooling", "Scene Management", "Audio Manager", "IO", "Singleton"],
+    "keywords": [ "Object Pooling", "Scene Management", "Audio Manager", "IO", "Singleton" ],
     "category": "2D",
-	"description": "Core systems: Object Pooling, Scene Management, Simple Audio Management, IO, Singleton",
+    "description": "Core systems: Object Pooling, Scene Management, Simple Audio Management, IO, Singleton",
     "dependencies": {
     }
 }
