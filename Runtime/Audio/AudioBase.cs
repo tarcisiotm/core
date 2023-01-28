@@ -5,12 +5,14 @@ namespace TG.Core.Audio {
     /// Base class for audio that will add itself to a list for global operations from the Audio Manager
     /// </summary>
     public class AudioBase : MonoBehaviour {
+        /*private AudioManagerBase _audioManager;
+
         protected virtual void OnEnable() {
-            AudioManagerBase.I.AddToAudioList(this);
+            _audioManager.AddToAudioList(this);
         }
 
         protected virtual void OnDisable() {
-            if (AudioManagerBase.I != null) AudioManagerBase.I.RemoveFromAudioList(this);
-        }
+            _audioManager.RemoveFromAudioList(this);
+        }*/
     }
 }

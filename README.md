@@ -35,6 +35,7 @@ The following table indicates the folder structure of the Core package:
 
 |Date|Reason|
 |----|------|
+|Jan 28, 2023|Removed singleton from classes. Matches package version 0.7.0|
 |May 12, 2021|Updated "Using Core" section. Matches package version 0.6.0|
 |February 07, 2021|Updated Unity Version created. Matches package version 0.5.0|
 |April 08, 2020|Document created. Matches package version 0.5.0|

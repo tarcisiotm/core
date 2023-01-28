@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,7 +8,7 @@ namespace TG.Core
     /// <summary>
     /// Manager for loading / unloading scenes
     /// </summary>
-    public class ScenesManager : Singleton<ScenesManager>
+    public class ScenesManager : MonoBehaviour
     {
         [Header("Settings")]
         [Tooltip("For loading times smaller than this value, will stall for the remainder.")]
@@ -182,6 +183,7 @@ namespace TG.Core
 
         public void LoadSceneWithFade(int index)
         {
+            throw new NotImplementedException("LoadSceneWithFade: To be implemented.");
             //LoadScene(SceneManager.GetSceneByBuildIndex(index), true, true);
         }
 
