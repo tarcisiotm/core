@@ -17,11 +17,11 @@ namespace TG.Core
 
         protected List<IModule> _modules = new();
 
-        public IModule GetModule<IModule>()
+        public T GetModule<T>() where T : IModule
         {
             foreach(var module in _modules)
             {
-                if (module is IModule) return (IModule)module;
+                if (module is T) return (T)module;
             }
 
             throw new System.Exception("Module not found!");
