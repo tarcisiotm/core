@@ -15,12 +15,16 @@ namespace TG.Core
 
         [SerializeField] protected ModulesData _modulesData;
 
-        protected HashSet<IModule> _modulesHashSet = new();
+        protected List<IModule> _modules = new();
 
-        public T GetModule<T>(T moduleType) where T : IModule
+        public IModule GetModule<IModule>()
         {
-            if (_modulesHashSet.TryGetValue(moduleType, out var result)) return (T)result;
-            else throw new System.Exception($"Module: {moduleType} not found!");
+            foreach(var module in _modules)
+            {
+                if (module is IModule) return (IModule)module;
+            }
+
+            throw new System.Exception("Module not found!");
         }
 
         protected virtual IEnumerator Start()
@@ -32,7 +36,7 @@ namespace TG.Core
                 var go = Instantiate(moduleData, transform.parent);
                 var iModule = go.GetComponent<IModule>();
                 yield return iModule.Initialize();
-                _modulesHashSet.Add(iModule);
+                _modules.Add(iModule);
             }
 
             _hasInitializedModules = true;
