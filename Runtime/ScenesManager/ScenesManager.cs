@@ -8,7 +8,7 @@ namespace TG.Core
     /// <summary>
     /// Manager for loading / unloading scenes
     /// </summary>
-    public class ScenesManager : MonoBehaviour
+    public class ScenesManager : MonoBehaviour, IModule
     {
         [Header("Settings")]
         [Tooltip("For loading times smaller than this value, will stall for the remainder.")]
@@ -19,6 +19,10 @@ namespace TG.Core
 
         public bool IsLoadingScene { get; private set; }
         public float LoadingProgress { get; private set; }
+
+        protected bool _hasInitialized;
+
+        public bool HasInitialized => _hasInitialized;
 
         //Delegates
         public delegate void SceneLoadEvent();
@@ -191,6 +195,16 @@ namespace TG.Core
         {
             int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
             LoadScene(GetSceneNameFromIndex(nextSceneIndex), true, UnloadCondition.AfterTransitionFadedIn);
+        }
+
+        public virtual IEnumerator Initialize()
+        {
+            _hasInitialized = true;
+            yield break;
+        }
+
+        public virtual void Destroy()
+        {
         }
         #endregion Util
     }

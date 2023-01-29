@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;using UnityEngine;namespace TG.Core.Audio{
-    /// <summary>    /// Manager for creating OneShots, and globally handling audio    /// </summary>    public abstract class AudioManagerBase : MonoBehaviour    {        [Header("Base Settings")]        [SerializeField] protected bool _fadeBGMOnSceneLoad = true;        [Header("References")]        [Tooltip("Optional BGM Audio Source")]        [SerializeField] protected AudioSource _bgmAudioSource;        [Tooltip("Audio Prefab for instantiating sounds at runtime")]        [SerializeField] protected GameObject _audioPrefab;        protected PoolingController _poolingController;        protected PlayAudioAndDisable _plauAudioAndDisable;        protected List<AudioBase> _audioList = new List<AudioBase>();        protected bool _isReady = false;
+﻿using System.Collections;
+using System.Collections.Generic;using UnityEngine;namespace TG.Core.Audio{
+    /// <summary>    /// Manager for creating OneShots, and globally handling audio    /// </summary>    public abstract class AudioManagerBase : MonoBehaviour, IModule    {        [Header("Base Settings")]        [SerializeField] protected bool _fadeBGMOnSceneLoad = true;        [Header("References")]        [Tooltip("Optional BGM Audio Source")]        [SerializeField] protected AudioSource _bgmAudioSource;        [Tooltip("Audio Prefab for instantiating sounds at runtime")]        [SerializeField] protected GameObject _audioPrefab;        protected PoolingController _poolingController;        protected PlayAudioAndDisable _plauAudioAndDisable;        protected List<AudioBase> _audioList = new List<AudioBase>();        protected bool _isReady = false;
+
+        protected bool _hasInitialized;
+
+        public bool HasInitialized => _hasInitialized;
 
         #region Unity's Callbacks        protected void OnEnable()        {            ScenesManager.OnSceneIsGoingToLoad += OnSceneIsGoingToLoad;            ScenesManager.OnSceneLoaded += OnSceneLoaded;            OnEnableChild();            if (_poolingController == null) _poolingController = GetComponentInChildren<PoolingController>();        }        protected virtual void OnSceneIsGoingToLoad(int activeSceneBuildIndex, int newSceneBuildIndex) { }        protected virtual void OnSceneLoaded(int activeSceneBuildIndex, int newSceneBuildIndex) { }        protected virtual void Start()        {            _isReady = true;        }        protected void OnDisable()        {            ScenesManager.OnSceneIsGoingToLoad -= OnSceneIsGoingToLoad;            ScenesManager.OnSceneLoaded -= OnSceneLoaded;            OnDisableChild();        }        protected virtual void OnEnableChild() { }        protected virtual void OnDisableChild() { }
 
@@ -39,5 +44,15 @@
         #endregion Global Config
 
         #region Playback        public virtual void PlayBGM(AudioClip audioClip, float volume = 1)        {            if (_bgmAudioSource == null) { return; }            _bgmAudioSource.clip = audioClip;            _bgmAudioSource.volume = volume;            _bgmAudioSource.Play();        }
+
+        public virtual IEnumerator Initialize()
+        {
+            _hasInitialized = true;
+            yield break;
+        }
+
+        public virtual void Destroy()
+        {
+        }
         #endregion Playback    }
 }
