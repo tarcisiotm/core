@@ -46,34 +46,34 @@ namespace TG.Core
 
         #region Core Methods
 
-        public void LoadScene(int sceneBuildIndex)
+        /*public void LoadScene(int sceneBuildIndex)
         {
             LoadScene(GetSceneNameFromIndex(sceneBuildIndex));
-        }
+        }*/
 
         public void LoadScene(SceneConfig sceneConfig)
         {
         }
 
         public void LoadScene(
-            string sceneName,
+            int sceneBuildIndex,
             bool usesFade = false,
             UnloadCondition unloadCondition = UnloadCondition.AfterNewSceneHasLoaded)
         {
 
             if (IsLoadingScene) { return; }
 
-            if (!IsSceneInBuild(sceneName, out int index))
+            if (!IsSceneInBuild(sceneBuildIndex))
             {
-                Debug.LogError($"Could not find scene {sceneName}. Make sure it is included inside Build Settings.");
+                Debug.LogError($"Could not find scene with index {sceneBuildIndex}. Make sure it is included inside Build Settings.");
                 return;
             }
 
-            StartCoroutine(Internal_LoadScene(sceneName, usesFade, unloadCondition));
+            StartCoroutine(Internal_LoadScene(sceneBuildIndex, usesFade, unloadCondition));
         }
 
         private IEnumerator Internal_LoadScene(
-                string sceneName,
+                int sceneBuildIndex,
                 bool usesFade = true,
                 UnloadCondition unloadCondition = UnloadCondition.AfterNewSceneHasLoaded
             )
@@ -82,9 +82,9 @@ namespace TG.Core
             Scene activeScene = SceneManager.GetActiveScene();
             IsLoadingScene = true;
 
-            IsSceneInBuild(sceneName, out int newSceneIndex);
+            IsSceneInBuild(sceneBuildIndex);
 
-            OnSceneIsGoingToLoad?.Invoke(activeScene.buildIndex, newSceneIndex);
+            OnSceneIsGoingToLoad?.Invoke(activeScene.buildIndex, sceneBuildIndex);
 
             SceneTransition sceneTransition = FindObjectOfType<SceneTransition>();
 
@@ -95,7 +95,7 @@ namespace TG.Core
                 yield return SceneManager.UnloadSceneAsync(activeScene);
             }
 
-            var asyncScene = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            var asyncScene = SceneManager.LoadSceneAsync(sceneBuildIndex, LoadSceneMode.Additive);
 
             asyncScene.allowSceneActivation = false;
 
@@ -133,7 +133,7 @@ namespace TG.Core
             }
 
             IsLoadingScene = false;
-            OnSceneLoaded?.Invoke(activeScene.buildIndex, newSceneIndex);
+            OnSceneLoaded?.Invoke(activeScene.buildIndex, sceneBuildIndex);
 
             if (unloadCondition == UnloadCondition.AfterNewSceneHasLoaded)
             {
@@ -152,26 +152,27 @@ namespace TG.Core
 
         public void LoadMainMenu(bool usesFade = true)
         {
-            LoadScene(GetSceneNameFromIndex(_mainMenuSceneBuildIndex), usesFade, UnloadCondition.AfterTransitionFadedIn);
+            LoadScene(_mainMenuSceneBuildIndex, usesFade, UnloadCondition.AfterTransitionFadedIn);
         }
 
         public void ReloadScene(bool usesFade = true)
         {
-            LoadScene(GetSceneNameFromIndex(SceneManager.GetActiveScene().buildIndex), usesFade, UnloadCondition.AfterTransitionFadedIn);
+            LoadScene(SceneManager.GetActiveScene().buildIndex, usesFade, UnloadCondition.AfterTransitionFadedIn);
         }
 
         #endregion Core Methods
 
 
         #region Util
-        string GetSceneNameFromIndex(int buildIndex)
+        /*string GetSceneNameFromIndex(int buildIndex)
         {
             return System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(buildIndex));
-        }
+        }*/
 
-        public bool IsSceneInBuild(string sceneName, out int sceneIndex)
+        public bool IsSceneInBuild(int sceneBuildIndex)
         {
-            int sceneCount = SceneManager.sceneCountInBuildSettings;
+            return sceneBuildIndex < SceneManager.sceneCountInBuildSettings;
+           /* int sceneCount = SceneManager.sceneCountInBuildSettings;
 
             for (int i = 0; i < sceneCount; i++)
             {
@@ -182,7 +183,7 @@ namespace TG.Core
                 }
             }
             sceneIndex = -1;
-            return false;
+            return false;*/
         }
 
         public void LoadSceneWithFade(int index)
@@ -194,7 +195,7 @@ namespace TG.Core
         public void LoadNextSceneWithFade()
         {
             int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-            LoadScene(GetSceneNameFromIndex(nextSceneIndex), true, UnloadCondition.AfterTransitionFadedIn);
+            LoadScene(nextSceneIndex, true, UnloadCondition.AfterTransitionFadedIn);
         }
 
         public virtual IEnumerator Initialize()
