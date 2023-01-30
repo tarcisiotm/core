@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TG.Core
 {
-    public abstract class GameManagerBase : Singleton<GameManagerBase>, IModule
+    public abstract class GameManagerBase : Singleton<GameManagerBase>
     {
         protected bool _hasInitialized;
         protected bool _hasInitializedModules;
@@ -15,9 +15,9 @@ namespace TG.Core
 
         [SerializeField] protected ModulesData _modulesData;
 
-        protected List<IModule> _modules = new();
+        protected List<ModuleBase> _modules = new();
 
-        public T GetModule<T>() where T : IModule
+        public T GetModule<T>() where T : ModuleBase
         {
             foreach(var module in _modules)
             {
@@ -34,7 +34,7 @@ namespace TG.Core
             foreach (var moduleData in _modulesData.ModulePrefabs)
             {
                 var go = Instantiate(moduleData, transform.parent);
-                var iModule = go.GetComponent<IModule>();
+                var iModule = go.GetComponent<ModuleBase>();
                 yield return iModule.Initialize();
                 _modules.Add(iModule);
             }

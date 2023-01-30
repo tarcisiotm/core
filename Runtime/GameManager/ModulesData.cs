@@ -13,7 +13,7 @@ namespace TG.Core {
         {
             for (int i = _modulePrefabs.Count - 1; i >= 0; i--)
             {
-                if (_modulePrefabs[i].GetComponent<IModule>() == null)
+                if (_modulePrefabs[i].GetComponent<ModuleBase>() == null)
                 {
                     Debug.LogError($"Removed {_modulePrefabs[i].name} since it does not implement IModule!");
                     _modulePrefabs.RemoveAt(i);

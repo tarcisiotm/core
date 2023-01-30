@@ -8,7 +8,7 @@ namespace TG.Core
     /// <summary>
     /// Manager for loading / unloading scenes
     /// </summary>
-    public class ScenesManager : MonoBehaviour, IModule
+    public class ScenesManager : ModuleBase
     {
         [Header("Settings")]
         [Tooltip("For loading times smaller than this value, will stall for the remainder.")]
