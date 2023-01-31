@@ -135,6 +135,8 @@ namespace TG.Core
             IsLoadingScene = false;
             OnSceneLoaded?.Invoke(activeScene.buildIndex, sceneBuildIndex);
 
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(sceneBuildIndex));
+
             if (unloadCondition == UnloadCondition.AfterNewSceneHasLoaded)
             {
                 SceneManager.UnloadSceneAsync(activeScene);
@@ -196,16 +198,6 @@ namespace TG.Core
         {
             int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
             LoadScene(nextSceneIndex, true, UnloadCondition.AfterTransitionFadedIn);
-        }
-
-        public virtual IEnumerator Initialize()
-        {
-            _hasInitialized = true;
-            yield break;
-        }
-
-        public virtual void Destroy()
-        {
         }
         #endregion Util
     }

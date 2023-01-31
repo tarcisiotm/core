@@ -44,15 +44,5 @@ using System.Collections.Generic;using UnityEngine;namespace TG.Core.Audio{
         #endregion Global Config
 
         #region Playback        public virtual void PlayBGM(AudioClip audioClip, float volume = 1)        {            if (_bgmAudioSource == null) { return; }            _bgmAudioSource.clip = audioClip;            _bgmAudioSource.volume = volume;            _bgmAudioSource.Play();        }
-
-        public virtual IEnumerator Initialize()
-        {
-            _hasInitialized = true;
-            yield break;
-        }
-
-        public virtual void Destroy()
-        {
-        }
         #endregion Playback    }
 }

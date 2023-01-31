@@ -3,6 +3,9 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [0.7.8] - 2023-01-30
+### Changes to the module code and some refactoring.
+
 ## [0.7.1] - 2023-01-29
 ### Organizing the code into Modules with proper initialization.
 
