@@ -3,6 +3,9 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [0.7.9] - 2024-04-12
+### Fixed game loading bug preventing main menu scene from being left.
+
 ## [0.7.8] - 2023-01-30
 ### Changes to the module code and some refactoring.
 
