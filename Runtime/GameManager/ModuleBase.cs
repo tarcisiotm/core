@@ -9,7 +9,7 @@ public abstract class ModuleBase : MonoBehaviour
     public virtual IEnumerator Initialize()
     {
         HasInitialized = true;
-        yield return null;
+        yield break;
     }
 
     public virtual void Destroy() { }

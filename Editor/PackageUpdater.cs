@@ -3,9 +3,12 @@ using System.IO;
 using System.Text;
 using UnityEditor;
 
+/// <summary>
+/// Workaround to easily update the core package inside GameJamTemplate
+/// </summary>
 public class PackageUpdater
 {
-    [MenuItem("Tools/TG Core/Refresh TG Core Package 2")]
+    [MenuItem("Tools/TG Core/Refresh TG Core Package")]
     static void RefreshPackage()
     {
         string path = "Assets/../Packages/packages-lock.json";

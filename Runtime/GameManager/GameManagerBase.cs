@@ -33,7 +33,7 @@ namespace TG.Core
 
             foreach (var moduleData in _modulesData.ModulePrefabs)
             {
-                var go = Instantiate(moduleData, transform.parent);
+                var go = Instantiate(moduleData, transform);
                 var iModule = go.GetComponent<ModuleBase>();
                 yield return iModule.Initialize();
                 _modules.Add(iModule);
