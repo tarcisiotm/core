@@ -8,8 +8,16 @@ namespace TG.Core
     [System.Serializable]
     public class SceneConfig
     {
-        public Scene scene;
-        public bool usesFade = false;
+        public int sceneBuildIndex = 0;
+        public bool usesFade = true;
         public bool unloadActiveScene = true;
+        public ScenesManager.UnloadCondition unloadCondition = ScenesManager.UnloadCondition.AfterTransitionFadedIn;
+
+        public static SceneConfig GetDefaultSceneConfig(int sceneBuildIndex) 
+        {
+            SceneConfig sceneConfig = new SceneConfig();
+            sceneConfig.sceneBuildIndex = sceneBuildIndex;
+            return sceneConfig;
+        }
     }
 }

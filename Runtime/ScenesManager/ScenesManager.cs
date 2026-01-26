@@ -47,19 +47,20 @@ namespace TG.Core
 
         #region Core Methods
 
-        /*public void LoadScene(int sceneBuildIndex)
+        public void LoadScene(int sceneBuildIndex)
         {
-            LoadScene(GetSceneNameFromIndex(sceneBuildIndex));
-        }*/
+            LoadScene(SceneConfig.GetDefaultSceneConfig(sceneBuildIndex));
+        }
 
         public void LoadScene(SceneConfig sceneConfig)
         {
+            LoadScene(sceneConfig.sceneBuildIndex, sceneConfig.usesFade, sceneConfig.unloadCondition);
         }
 
         public void LoadScene(
             int sceneBuildIndex,
-            bool usesFade = false,
-            UnloadCondition unloadCondition = UnloadCondition.AfterNewSceneHasLoaded)
+            bool usesFade = true,
+            UnloadCondition unloadCondition = UnloadCondition.AfterTransitionFadedIn)
         {
             if (IsLoadingScene) { return; }
 
@@ -87,15 +88,9 @@ namespace TG.Core
 
             OnSceneIsGoingToLoad?.Invoke(previouslyActiveScene.buildIndex, sceneBuildIndex);
 
-            // TODO: grab reference
-            var sceneTransition = FindFirstObjectByType<SceneTransition>();
+            // TODO: add virtual method for custom hooks?
 
-            // TODO: rename for clarity
-            var fadeConditionsMet = usesFade && sceneTransition != null;
-
-            // TODO: add virtual method for custom hooks
-
-            // make managers scene active
+            // cache this scene, this is where we are located, no?
             Scene managersScene;
             for (int i = 0; i < SceneManager.sceneCount; i++)
             {
@@ -103,7 +98,6 @@ namespace TG.Core
 
                 managersScene = SceneManager.GetSceneAt(i);
                 SceneManager.SetActiveScene(managersScene);
-
                 //SceneManager.SetActiveScene(SceneManager.GetSceneByName("MySceneName"));
                 break;
             }
@@ -113,45 +107,36 @@ namespace TG.Core
                 yield return SceneManager.UnloadSceneAsync(previouslyActiveScene);
             }
 
-            if (fadeConditionsMet)
-            {
-                sceneTransition.FadeIn();
-                yield return WaitForSecondsUnscaled(sceneTransition.TransitionDuration);
-                OnTransitionFadedIn?.Invoke();
-            }
+            yield return SceneTransitionFadeIn(usesFade, unloadCondition, previouslyActiveScene);
 
-            // this cannot be! we need to set the transition as the active scene before unloading it here
-            if (fadeConditionsMet && unloadCondition == UnloadCondition.AfterTransitionFadedIn)
+            if (unloadCondition == UnloadCondition.AfterTransitionFadedIn) // or no transition present
             {
                 yield return SceneManager.UnloadSceneAsync(previouslyActiveScene);
             }
 
-            var asyncScene = SceneManager.LoadSceneAsync(sceneBuildIndex, LoadSceneMode.Additive);
-            asyncScene.allowSceneActivation = false;
+            var asyncLoadScene = SceneManager.LoadSceneAsync(sceneBuildIndex, LoadSceneMode.Additive);
+            asyncLoadScene.allowSceneActivation = false;
 
-            while (!asyncScene.isDone)
+            while (!asyncLoadScene.isDone)
             {
-                LoadingProgress = asyncScene.progress;
+                LoadingProgress = asyncLoadScene.progress;
 
                 OnSceneProgressUpdated?.Invoke(LoadingProgress);
 
-                if (asyncScene.progress >= 0.9f && Time.realtimeSinceStartup - initialTime >= _minLoadTime
-                    ) { asyncScene.allowSceneActivation = true; }
+                if (asyncLoadScene.progress >= 0.9f && Time.realtimeSinceStartup - initialTime >= _minLoadTime)
+                { 
+                    asyncLoadScene.allowSceneActivation = true; 
+                }
 
                 yield return null;
             }
 
             OnSceneProgressUpdated?.Invoke(1f);
 
-            if (fadeConditionsMet)
-            {
-                OnTransitionIsGoingToFadeOut?.Invoke();
-                yield return WaitForSecondsUnscaled(sceneTransition.BeforeFadeStallDuration);
-                sceneTransition.FadeOut();
-                yield return WaitForSecondsUnscaled(sceneTransition.TransitionDuration);
-            }
-
+            yield return StartCoroutine(SceneTransitionFadeOut(usesFade));
+           
             IsLoadingScene = false;
+
             OnSceneLoaded?.Invoke(previouslyActiveScene.buildIndex, sceneBuildIndex);
 
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(sceneBuildIndex));
@@ -160,6 +145,32 @@ namespace TG.Core
             {
                 SceneManager.UnloadSceneAsync(previouslyActiveScene);
             }
+        }
+
+        private IEnumerator SceneTransitionFadeIn(
+            bool usesFade, 
+            UnloadCondition unloadCondition, 
+            Scene previouslyActiveScene) 
+        {
+            // todo grab reference!
+            var sceneTransition = FindFirstObjectByType<SceneTransition>();
+            if (!usesFade || sceneTransition == null) yield break;
+
+            sceneTransition.FadeIn();
+            yield return WaitForSecondsUnscaled(sceneTransition.TransitionDuration);
+            OnTransitionFadedIn?.Invoke();
+        }
+
+        private IEnumerator SceneTransitionFadeOut(bool usesFade)
+        {
+            // todo grab reference!
+            var sceneTransition = FindFirstObjectByType<SceneTransition>();
+            if (!usesFade || sceneTransition == null) yield break;
+
+            OnTransitionIsGoingToFadeOut?.Invoke();
+            yield return WaitForSecondsUnscaled(sceneTransition.BeforeFadeStallDuration);
+            sceneTransition.FadeOut();
+            yield return WaitForSecondsUnscaled(sceneTransition.TransitionDuration);
         }
 
         private IEnumerator WaitForSecondsUnscaled(float seconds)
@@ -185,32 +196,13 @@ namespace TG.Core
 
 
         #region Util
-        /*string GetSceneNameFromIndex(int buildIndex)
-        {
-            return System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(buildIndex));
-        }*/
-
-        // todo: why?
-        public bool IsSceneInBuild(int sceneBuildIndex)
+        public static bool IsSceneInBuild(int sceneBuildIndex)
         {
             return sceneBuildIndex < SceneManager.sceneCountInBuildSettings;
-            /* int sceneCount = SceneManager.sceneCountInBuildSettings;
-
-             for (int i = 0; i < sceneCount; i++)
-             {
-                 if (sceneName == GetSceneNameFromIndex(i))
-                 {
-                     sceneIndex = i;
-                     return true;
-                 }
-             }
-             sceneIndex = -1;
-             return false;*/
         }
 
         public void LoadSceneWithFade(int index)
         {
-            //throw new NotImplementedException("LoadSceneWithFade: To be implemented.");
             LoadScene(index, true, UnloadCondition.AfterTransitionFadedIn);
         }
 
