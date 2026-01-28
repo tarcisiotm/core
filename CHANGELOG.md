@@ -3,6 +3,9 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [0.8] - 2026-01-27
+### Fixed scene manager and audio fade bugs. Refactored audio module for better modularity.
+
 ## [0.7.9] - 2024-04-12
 ### Fixed game loading bug preventing main menu scene from being left.
 
