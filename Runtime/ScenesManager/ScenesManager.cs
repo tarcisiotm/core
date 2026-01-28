@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,7 +14,7 @@ namespace TG.Core
         [SerializeField] private float _minLoadTime = 0f;
 
         [Header("Optional Settings")]
-        [SerializeField] private int _mainMenuSceneBuildIndex = 0;
+        [SerializeField] private int _mainMenuSceneBuildIndex = 1;
 
         public bool IsLoadingScene { get; private set; }
         public float LoadingProgress { get; private set; }
@@ -79,8 +78,6 @@ namespace TG.Core
                 UnloadCondition unloadCondition = UnloadCondition.AfterNewSceneHasLoaded
             )
         {
-            const string managersSceneName = "Managers Scene";
-
             var initialTime = Time.realtimeSinceStartup;
 
             var previouslyActiveScene = SceneManager.GetActiveScene();
@@ -90,17 +87,7 @@ namespace TG.Core
 
             // TODO: add virtual method for custom hooks?
 
-            // cache this scene, this is where we are located, no?
-            Scene managersScene;
-            for (int i = 0; i < SceneManager.sceneCount; i++)
-            {
-                if (SceneManager.GetSceneAt(i).name != managersSceneName) continue;
-
-                managersScene = SceneManager.GetSceneAt(i);
-                SceneManager.SetActiveScene(managersScene);
-                //SceneManager.SetActiveScene(SceneManager.GetSceneByName("MySceneName"));
-                break;
-            }
+            SceneManager.SetActiveScene(gameObject.scene);
 
             if (unloadCondition == UnloadCondition.BeforeNewSceneLoads)
             {
