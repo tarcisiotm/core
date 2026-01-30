@@ -14,7 +14,11 @@ namespace TG.Core
         [SerializeField] private float _minLoadTime = 0f;
 
         [Header("Optional Settings")]
-        [SerializeField] private int _mainMenuSceneBuildIndex = 1;
+        // TODO: remove these hardcoded values
+        [SerializeField] private int _mainMenuSceneBuildIndex = 2;
+
+        [Header("References")]
+        [SerializeField] private SceneTransition sceneTransition;
 
         public bool IsLoadingScene { get; private set; }
         public float LoadingProgress { get; private set; }
@@ -85,8 +89,6 @@ namespace TG.Core
 
             OnSceneIsGoingToLoad?.Invoke(previouslyActiveScene.buildIndex, sceneBuildIndex);
 
-            // TODO: add virtual method for custom hooks?
-
             SceneManager.SetActiveScene(gameObject.scene);
 
             if (unloadCondition == UnloadCondition.BeforeNewSceneLoads)
@@ -139,8 +141,6 @@ namespace TG.Core
             UnloadCondition unloadCondition, 
             Scene previouslyActiveScene) 
         {
-            // todo grab reference!
-            var sceneTransition = FindFirstObjectByType<SceneTransition>();
             if (!usesFade || sceneTransition == null) yield break;
 
             sceneTransition.FadeIn();
@@ -150,8 +150,6 @@ namespace TG.Core
 
         private IEnumerator SceneTransitionFadeOut(bool usesFade)
         {
-            // todo grab reference!
-            var sceneTransition = FindFirstObjectByType<SceneTransition>();
             if (!usesFade || sceneTransition == null) yield break;
 
             OnTransitionIsGoingToFadeOut?.Invoke();

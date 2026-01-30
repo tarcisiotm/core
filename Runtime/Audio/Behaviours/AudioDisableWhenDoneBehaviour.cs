@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TG.Core.Audio
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "TG Core/Audio/Behaviours/AudioDisableWhenDoneBehaviour")]
     public class AudioDisableWhenDoneBehaviour : AudioPlaybackEndedBehaviour
     {
         [SerializeField] private bool destroyWhenDone = false;

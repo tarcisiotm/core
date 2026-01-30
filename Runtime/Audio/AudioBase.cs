@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace TG.Core.Audio {
@@ -7,13 +8,6 @@ namespace TG.Core.Audio {
     /// </summary>
     public class AudioBase : MonoBehaviour 
     {
-        public enum SceneUnloadBehaviour 
-        {
-            StopPlayingImmediately,
-            FadeOut,
-            KeepPlayingIndefinitely,
-        }
-
         [Header("References")]
         [SerializeField] protected AudioSource audioSource;
 
@@ -21,7 +15,6 @@ namespace TG.Core.Audio {
         [SerializeField] private AudioBehaviorSet behaviorSet;
         [SerializeField] private bool fadesWhenSceneUnloads = true;
         [SerializeField] private bool fadeInVolume = false;
-        [SerializeField] private SceneUnloadBehaviour sceneUnloadBehaviour;
 
         public AudioSource AudioSource => audioSource;
 
@@ -31,15 +24,37 @@ namespace TG.Core.Audio {
 
         private AudioManagerBase audioManager;
 
+        protected float originalVolume;
+        public float OriginalVolume => originalVolume;
+
         protected virtual void OnEnable() {
             ScenesManager.OnSceneIsGoingToLoad += CheckSceneIsGoingToUnload;
+            GameStateManagerBase.OnGameStateChanged += OnGameStateChanged;
             //_audioManager.AddToAudioList(this);
         }
 
         protected virtual void OnDisable()
         {
             ScenesManager.OnSceneIsGoingToLoad -= CheckSceneIsGoingToUnload;
+            GameStateManagerBase.OnGameStateChanged -= OnGameStateChanged;
+
             //_audioManager.RemoveFromAudioList(this);
+        }
+
+        private void OnGameStateChanged(GameState previousGameState, GameState newGameState)
+        {
+            var isPausing = newGameState == GameState.Paused;
+            var isUnpausing = previousGameState == GameState.Paused;
+
+            if (!isPausing && !isUnpausing) { return; }
+
+            if (isPausing) { Pause(true); }
+            // TODO: handle possible transitions that wouldn't make sense to restore audio
+            // such as going to main menu, etc
+            else if (isUnpausing/* && newGameState == GameState.*/) 
+            {
+                Pause(false);
+            }
         }
 
         public void SetupAudio(AudioClip audioClip, float initialVolume, int sceneBuildIndexToUnloadWith) 
@@ -47,8 +62,19 @@ namespace TG.Core.Audio {
             audioSource.clip = audioClip;
             audioSource.volume = initialVolume;
             this.sceneBuildIndexToUnloadWith = sceneBuildIndexToUnloadWith;
+            originalVolume = initialVolume;
 
            // if (fadeInVolume) { FadeIn(); }
+        }
+
+        public void SetVolume(float volume, bool replacesOriginalValue = false) 
+        {
+            audioSource.volume = volume;
+
+            if (replacesOriginalValue) 
+            {
+                originalVolume = volume;
+            }
         }
 
         public virtual void Play() 
@@ -61,7 +87,16 @@ namespace TG.Core.Audio {
             }
         }
 
-        // todo, move this to the actual behaviour, no sense being here...
+        protected virtual void Pause(bool paused) 
+        {
+            if (behaviorSet.onGamePausedBehaviour != null) 
+            {
+                behaviorSet.onGamePausedBehaviour.OnGamePausedEvent(this, paused);
+            }
+
+        }
+
+        // This could be moved to the actual behaviour, but it would break the separation of responsibilities
         private IEnumerator CheckPlaybackEnded()
         {
             while (audioSource.isPlaying) { yield return null; }

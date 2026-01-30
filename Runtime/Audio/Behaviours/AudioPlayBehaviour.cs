@@ -2,7 +2,8 @@ using UnityEngine;
 
 namespace TG.Core.Audio
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "TG Core/Audio/Behaviours/AudioPlayBehaviour")]
+
     public class AudioPlayBehaviour : AudioPlaybackBehaviour
     {
         protected override void HandlePlayback(AudioBase audioBase)

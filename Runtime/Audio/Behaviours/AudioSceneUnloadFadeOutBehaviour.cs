@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TG.Core.Audio
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "TG Core/Audio/Behaviours/AudioSceneUnloadFadeOutBehaviour")]
     public class AudioSceneUnloadFadeOutBehaviour : AudioSceneUnloadBehaviour
     {
         [SerializeField] private float fadeOutDuration = .5f;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TG.Core.Audio
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "TG Core/Audio/Behaviours/AudioDelayBeforePlaybackBehaviour")]
     public class AudioDelayBeforePlaybackBehaviour : AudioPlaybackBehaviour
     {
         [SerializeField] private AudioPlayBehaviour audioPlayBehaviour;
