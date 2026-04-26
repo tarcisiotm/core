@@ -3,6 +3,9 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [0.8.1] - 2026-04-26
+### Fixed scene manager and Loading Indicator bugs. Added new UI string animator, currently used in the loading screen. 
+
 ## [0.8] - 2026-01-27
 ### Fixed scene manager and audio fade bugs. Refactored audio module for better modularity.
 

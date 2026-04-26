@@ -11,7 +11,7 @@ namespace TG.Core
     {
         [Header("Settings")]
         [Tooltip("For loading times smaller than this value, will stall for the remainder.")]
-        [SerializeField] private float _minLoadTime = 0f;
+        [SerializeField] private float _fullyLoadedWaitTime = 0f;
 
         [Header("Optional Settings")]
         // TODO: remove these hardcoded values
@@ -106,21 +106,34 @@ namespace TG.Core
             var asyncLoadScene = SceneManager.LoadSceneAsync(sceneBuildIndex, LoadSceneMode.Additive);
             asyncLoadScene.allowSceneActivation = false;
 
+            const float progressThreshold = 0.01f;
+
             while (!asyncLoadScene.isDone)
             {
+                var cachedLoadingProgress = LoadingProgress;
+
                 LoadingProgress = asyncLoadScene.progress;
 
-                OnSceneProgressUpdated?.Invoke(LoadingProgress);
+                if (Mathf.Abs(LoadingProgress - cachedLoadingProgress) > progressThreshold)
+                {
+                    OnSceneProgressUpdated?.Invoke(LoadingProgress);
+                }
 
-                if (asyncLoadScene.progress >= 0.9f && Time.realtimeSinceStartup - initialTime >= _minLoadTime)
-                { 
+                if (asyncLoadScene.progress >= 0.9f)
+                {
+                    OnSceneProgressUpdated?.Invoke(1f);
+
+                    var timer = 0f;
+                    while (timer <= _fullyLoadedWaitTime)
+                    {
+                        timer += Time.deltaTime;
+                        yield return null;
+                    }
                     asyncLoadScene.allowSceneActivation = true; 
                 }
 
                 yield return null;
             }
-
-            OnSceneProgressUpdated?.Invoke(1f);
 
             yield return StartCoroutine(SceneTransitionFadeOut(usesFade));
            
